@@ -253,6 +253,37 @@ def initialize_session_state():
 def main():
     """主应用程序"""
 
+    # 密码验证
+    app_password = os.getenv("APP_PASSWORD")
+    if app_password:
+        if 'password_correct' not in st.session_state:
+            st.session_state.password_correct = False
+
+        if not st.session_state.password_correct:
+            # 居中显示密码输入框
+            st.markdown("""
+                <style>
+                .main .block-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    height: 80vh;
+                }
+                </style>
+            """, unsafe_allow_html=True)
+            
+            with st.container():
+                st.header("🔒 请输入访问密码")
+                password = st.text_input("密码", type="password", key="password_input")
+                if st.button("确认进入"):
+                    if password == app_password:
+                        st.session_state.password_correct = True
+                        st.rerun()
+                    else:
+                        st.error("密码错误，请重试。")
+            return # 在密码正确前停止执行
+
     # 初始化会话状态
     initialize_session_state()
 
@@ -815,7 +846,7 @@ def main():
 
                 logger.info(f"🧵 [后台分析] 分析线程已启动: {analysis_id}")
 
-                # 分析已在后台线程中启动，显示启动信息并刷新页面
+                # 分析已在后台线程启动，显示启动信息并刷新页面
                 st.success("🚀 分析已启动！正在后台运行...")
 
                 # 显示启动信息
@@ -955,7 +986,7 @@ def main():
                    - 美股示例: `AAPL` (苹果), `TSLA` (特斯拉), `MSFT` (微软)
                    - 港股示例: `00700` (腾讯), `09988` (阿里巴巴)
 
-                   ⚠️ **重要提示**: 输入股票代码后，请按 **回车键** 确认输入！
+                   ⚠️ **重要提示**: 输入股票代码后，请按 **回车键** 确认！
 
                 2. **选择分析日期**
                    - 默认为今天

@@ -209,16 +209,17 @@ def render_sidebar():
         # LLM提供商选择
         llm_provider = st.selectbox(
             "LLM提供商",
-            options=["dashscope", "deepseek", "google", "openai", "openrouter", "siliconflow","custom_openai"],
-            index=["dashscope", "deepseek", "google", "openai", "openrouter","siliconflow", "custom_openai"].index(st.session_state.llm_provider) if st.session_state.llm_provider in ["siliconflow", "dashscope", "deepseek", "google", "openai", "openrouter", "custom_openai"] else 0,
+            # options=["dashscope", "deepseek", "google", "openai", "openrouter", "siliconflow","custom_openai"],
+            options=["openai"],
+            index=["openai"].index(st.session_state.llm_provider) if st.session_state.llm_provider in ["openai"] else 0,
             format_func=lambda x: {
-                "dashscope": "🇨🇳 阿里百炼",
-                "deepseek": "🚀 DeepSeek V3",
-                "google": "🌟 Google AI",
+                #"dashscope": "🇨🇳 阿里百炼",
+                #"deepseek": "🚀 DeepSeek V3",
+                #"google": "🌟 Google AI",
                 "openai": "🤖 OpenAI",
-                "openrouter": "🌐 OpenRouter",
-                "siliconflow": "🇨🇳 硅基流动",
-                "custom_openai": "🔧 自定义OpenAI端点"
+                #"openrouter": "🌐 OpenRouter",
+                #"siliconflow": "🇨🇳 硅基流动",
+                #"custom_openai": "🔧 自定义OpenAI端点"
             }[x],
             help="选择AI模型提供商",
             key="llm_provider_select"
@@ -377,11 +378,12 @@ def render_sidebar():
             save_model_selection(st.session_state.llm_provider, st.session_state.model_category, llm_model)
         elif llm_provider == "openai":
              openai_options = [
-                 "gpt-4o",
-                 "gpt-4o-mini",
-                 "gpt-4-turbo",
-                 "gpt-4",
-                 "gpt-3.5-turbo"
+                #  "gpt-4o",
+                #  "gpt-4o-mini",
+                #  "gpt-4-turbo",
+                #  "gpt-4",
+                #  "gpt-3.5-turbo",
+                 "gpt-5-mini"
              ]
  
              # 获取当前选择的索引
@@ -398,31 +400,32 @@ def render_sidebar():
                      "gpt-4o-mini": "GPT-4o Mini - 轻量旗舰",
                      "gpt-4-turbo": "GPT-4 Turbo - 强化版",
                      "gpt-4": "GPT-4 - 经典版",
-                     "gpt-3.5-turbo": "GPT-3.5 Turbo - 经济版"
+                     "gpt-3.5-turbo": "GPT-3.5 Turbo - 经济版",
+                     "gpt-5-mini": "GPT-5 Mini - 全新轻量模型"
                  }[x],
                  help="选择用于分析的OpenAI模型",
                  key="openai_model_select"
              )
 
              # 快速选择按钮
-             st.markdown("**快速选择:**")
+            #  st.markdown("**快速选择:**")
              
-             col1, col2 = st.columns(2)
-             with col1:
-                 if st.button("🚀 GPT-4o", key="quick_gpt4o", use_container_width=True):
-                     model_id = "gpt-4o"
-                     st.session_state.llm_model = model_id
-                     save_model_selection(st.session_state.llm_provider, st.session_state.model_category, model_id)
-                     logger.debug(f"💾 [Persistence] 快速选择GPT-4o: {model_id}")
-                     st.rerun()
+            #  col1, col2 = st.columns(2)
+            #  with col1:
+            #      if st.button("🚀 GPT-4o", key="quick_gpt4o", use_container_width=True):
+            #          model_id = "gpt-4o"
+            #          st.session_state.llm_model = model_id
+            #          save_model_selection(st.session_state.llm_provider, st.session_state.model_category, model_id)
+            #          logger.debug(f"💾 [Persistence] 快速选择GPT-4o: {model_id}")
+            #          st.rerun()
              
-             with col2:
-                 if st.button("⚡ GPT-4o Mini", key="quick_gpt4o_mini", use_container_width=True):
-                     model_id = "gpt-4o-mini"
-                     st.session_state.llm_model = model_id
-                     save_model_selection(st.session_state.llm_provider, st.session_state.model_category, model_id)
-                     logger.debug(f"💾 [Persistence] 快速选择GPT-4o Mini: {model_id}")
-                     st.rerun()
+            #  with col2:
+            #      if st.button("⚡ GPT-4o Mini", key="quick_gpt4o_mini", use_container_width=True):
+            #          model_id = "gpt-4o-mini"
+            #          st.session_state.llm_model = model_id
+            #          save_model_selection(st.session_state.llm_provider, st.session_state.model_category, model_id)
+            #          logger.debug(f"💾 [Persistence] 快速选择GPT-4o Mini: {model_id}")
+            #          st.rerun()
  
              # 更新session state和持久化存储
              if st.session_state.llm_model != llm_model:
